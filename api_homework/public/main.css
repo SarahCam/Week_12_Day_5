@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  /* background-image: url("TBD.jpg"); */
+  /* background-repeat:no-repeat; */
+  /* background-size: 900px; */
+}
+
+canvas {
+  border: 5px solid black;
+  margin-left: 180px;
+  margin-top: 170px;
+}
