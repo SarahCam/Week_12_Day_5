@@ -38,7 +38,40 @@
 let demographicsArray = [];
 let countriesArray = [];
 
-let demographicsData = "population,murder_rate,migration,median_age,education_expenditure,density,population_over_64";
+const demographicOptions = [
+  { key: "birth_rate", value: "Birth Rate"},
+  { key: "death_rate", value: "Death Rate"},
+  { key: "diabetes_prevalence", value: "Diabetes Prevalence"},
+  { key: "electric_energy_consumption", value: "Electric Energy Consumption"},
+  { key: "gdp_capita", value: "GDP Per Capita"},
+  { key: "gini", value: "GINI"},
+  { key: "happiness_index", value: "Happiness Index"},
+  { key: "jobless_rate", value: "Jobless Rate"},
+  { key: "life_expectancy", value: "Life Expectancy"},
+  { key: "literacy_rate", value: "Literacy Rate"},
+  { key: "medianwage", value: "Median Wage"},
+  { key: "median_age", value: "Median Age"},
+  { key: "migration_rate", value: "Migration Rate"},
+  { key: "murder_rate", value: "Murder Rate"},
+  { key: "population", value: "Population"},
+  { key: "population_0_14", value: "Population 0-14 Years"},
+  { key: "population_15_64", value: "Population 15-64 Years"},
+  { key: "population_over_64", value: "Population Over 64 Years"},
+  { key: "size", value: "Size"},
+  { key: "urban_population", value: "Urban Population"}
+];
+
+// Create a comma-separated string of demographic keys, that can be appended to the demographics URL:
+const getDemographicsData = function(){
+  let demographicsData = "";
+  let lastIndex = (demographicOptions.length - 1);
+  for(i=0; i < lastIndex; i++){
+    demographicsData = demographicsData + demographicOptions[i].key + ",";
+  };
+  demographicsData = demographicsData + demographicOptions[lastIndex].key;
+  return demographicsData;
+};
+
 
 // Create XHR to 'get' JSON data from API (url)
 // & fire a callback function once the data is loaded:
@@ -91,18 +124,18 @@ const createDemographicsDropDown = function(array){
   }
 };
 
-// Create country method:
-const createCountry = function(demographic){
-  const countryName = document.getElementById('country-name');
-  countryName.innerText = demographic.countryName;
-  // const region = document.getElementById('region');
-  // region.innerText = country.countryName;
-  const population = document.getElementById('population');
-  population.innerText = "Population: " + demographic.population;
-  const murderRate = document.getElementById('murder-rate');
-  murderRate.innerText = "Murder Rate: " + demographic.murder_rate;
-  const medianAge = document.getElementById('median-age');
-  medianAge.innerText = "Median Age: " + demographic.median_age;
+// Create & populate country demographics:
+const createCountry = function(country){
+  const div = document.getElementById('demographics');
+
+  const h2 = document.getElementById('country-name');
+  h2.innerText = country.countryName;
+
+  for(option of demographicOptions){
+      console.log(option.value, option.key);
+      const p = document.getElementById(option.key);
+      p.innerText = option.value + ": " + eval("country." + option.key);
+  };
 };
 
 // Main function:
@@ -111,13 +144,12 @@ const app = function(){
   const urlCountries = "https://restcountries.eu/rest/v2/all";
   makeRequest(urlCountries, createCountries);
 
-  const urlDemographics = "http://inqstatsapi.inqubu.com/?api_key=8f4fe2162ce4d44d&cmd=getWorldData&data=" + demographicsData;
+  const urlDemographics = "http://inqstatsapi.inqubu.com/?api_key=8f4fe2162ce4d44d&cmd=getWorldData&data="
+                          + getDemographicsData();
   makeRequest(urlDemographics, createDemographics);
 
   const select = document.getElementById('demographics-dropdown');
   select.addEventListener("change", function(event){
-    console.log(event);
-    console.log(event.target.selectedIndex);
     createCountry(demographicsArray[event.target.selectedIndex]);
   });
 
