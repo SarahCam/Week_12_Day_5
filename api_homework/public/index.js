@@ -93,29 +93,36 @@ const createDemographicsResults = function(demographics){
   select.addEventListener("change", function(event){
     let country = demographics[event.target.selectedIndex];
     createCountry(country);
-
-    drawGenericPieChart('Rural/Urban Population',
-                        [ ['Urban/Rural', 'Percentage'],
-                          ['Urban', parseFloat(country.urban_population)],
-                          ['Rural', 100 - country.urban_population]
-                        ],
-                        'piechart-test1');
-
-    drawGenericPieChart('Literacy Level',
-                        [ ['Literacy', 'Percentage'],
-                          ['Literate', parseFloat(country.literacy_rate)],
-                          ['Illiterate', 100 - country.literacy_rate]
-                        ],
-                        'piechart-test2');
-
-    drawGenericPieChart('Population Age',
-                        [ ['Age', 'Percentage'],
-                          ['Under 15', parseFloat(country.population_0_14)],
-                          ['15 - 64 Years', parseFloat(country.population_15_64)],
-                          ['Over 64', parseFloat(country.population_over_64)]
-                        ],
-                        'piechart-test3');
+    drawPieCharts(country);
+    maxHappiness = findMaxObject(demographics, 'happiness_index');
+    minHappiness = findMinObject(demographics, 'happiness_index');
+    console.log("Max Happiness: ", maxHappiness.countryName, maxHappiness.happiness_index);
+    console.log("Min Happiness: ", minHappiness.countryName, minHappiness.happiness_index);
   });
+}
+
+const drawPieCharts = function(country){
+  drawGenericPieChart('Rural/Urban Population',
+                      [ ['Urban/Rural', 'Percentage'],
+                        ['Urban', parseFloat(country.urban_population)],
+                        ['Rural', 100 - country.urban_population]
+                      ],
+                      'piechart-test1');
+
+  drawGenericPieChart('Literacy Level',
+                      [ ['Literacy', 'Percentage'],
+                        ['Literate', parseFloat(country.literacy_rate)],
+                        ['Illiterate', 100 - country.literacy_rate]
+                      ],
+                      'piechart-test2');
+
+  drawGenericPieChart('Population Age',
+                      [ ['Age', 'Percentage'],
+                        ['Under 15', parseFloat(country.population_0_14)],
+                        ['15 - 64 Years', parseFloat(country.population_15_64)],
+                        ['Over 64', parseFloat(country.population_over_64)]
+                      ],
+                      'piechart-test3');
 }
 
 // Create & populate country demographics:
