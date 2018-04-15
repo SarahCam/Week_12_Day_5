@@ -52,8 +52,8 @@ const createCountries = function(){
   if(this.status !== 200) return;
   const jsonString = this.responseText;
   const countries = JSON.parse(jsonString);
-  createCountriesDropDown(countries);
-  drawChart(countries);
+  createCountriesArray(countries);
+  drawChart();
 };
 
 const createDemographics = function(){
@@ -65,14 +65,9 @@ const createDemographics = function(){
   drawLine();
 };
 
-// Generate an HTML dropdown list from an array:
-const createCountriesDropDown = function(array){
-  const select = document.getElementById('dropdown');
+// Create countries array from  restcountries data:
+const createCountriesArray = function(array){
   for(let arrayItem of array){
-    const option = document.createElement('option');
-    option.value = arrayItem;
-    option.innerText = arrayItem.name;            // restcountries data
-    select.appendChild(option);
     countriesArray.push(arrayItem);
   }
 };
@@ -109,6 +104,8 @@ const createDemographicsResults = function(demographics){
     createCountry(country);
     drawPieCharts(country);
     drawTrendCharts(demographics, country);
+    showMap(latLngArray[event.target.selectedIndex][0][0], latLngArray[event.target.selectedIndex][0][1]);
+
     maxHappiness = findMaxObject(demographics, 'happiness_index');
     minHappiness = findMinObject(demographics, 'happiness_index');
     console.log("Max Happiness: ", maxHappiness.countryName, maxHappiness.happiness_index);
@@ -179,6 +176,16 @@ const createCountry = function(country){
   };
 };
 
+// Show map, centred on the currently selected country:
+const showMap = function(latitude, longitude){
+  const container = document.getElementById('main-map');
+  const center = {lat: latitude, lng: longitude};
+  const zoom = 2;
+
+  const map = new MapWrapper(container, center, zoom);
+  map.addMarker(center);
+};
+
 // Main function:
 const app = function(){
 
@@ -188,13 +195,6 @@ const app = function(){
   const urlDemographics = "http://inqstatsapi.inqubu.com/?api_key=8f4fe2162ce4d44d&cmd=getWorldData&data="
                           + getDemographicsData();
   makeRequest(urlDemographics, createDemographics);
-
-  const container = document.getElementById('main-map');
-  const center = {lat: 56.1703, lng: -4.02793};
-  const zoom = 9;
-
-  const map = new MapWrapper(container, center, zoom);
-  map.addMarker(center);
 
 }
 

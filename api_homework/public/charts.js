@@ -1,5 +1,5 @@
 // Draw a chart...
-function drawChart(countries) {
+function drawChart() {
 
   const europe  = ['Europe', 20];
   const asia    = ['Asia', 40];
