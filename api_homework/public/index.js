@@ -1,4 +1,3 @@
-let demographicsArray = [];
 let countriesArray = [];
 let latLngArray = [];
 
@@ -79,7 +78,6 @@ const createDemographicsDropDown = function(array){
     option.innerText = arrayItem.countryName;     // inqstats data
     select.appendChild(option);
     createCountryLatLng(arrayItem.countryName); // Find the lat/long/region info and add to array
-    demographicsArray.push(arrayItem);
   };
 };
 
@@ -100,7 +98,6 @@ const createDemographicsResults = function(demographics){
   const select = document.getElementById('demographics-dropdown');
   select.addEventListener("change", function(event){
     let country = demographics[event.target.selectedIndex];
-    createCountry(country);
     drawPieCharts(country);
     drawTrendCharts(demographics, country);
     showMap(latLngArray[event.target.selectedIndex][0][0], latLngArray[event.target.selectedIndex][0][1], country);
@@ -161,28 +158,29 @@ const drawPieCharts = function(country){
                       'piechart-test3');
 };
 
-// Create & populate country demographics:
-const createCountry = function(country){
-  const div = document.getElementById('demographics');
-
-  const h2 = document.getElementById('country-name');
-  h2.innerText = country.countryName;
-
+// Create & populate country demographics in InfoWindow:
+const createInfoWindowContents = function(country){
+  let content = document.createElement('div');
   for(option of demographicOptions){
-      const p = document.getElementById(option.key);
-      const value = country[option.key];        // Don't use const value = eval("country." + option.key)
+      let p = document.createElement('p');
+      const value = country[option.key];
       p.innerText = option.value + ": " + value;
+      p.style.fontSize = "10px";
+      p.style.lineHeight ="0.7";
+      content.appendChild(p);
   };
+  return content;
 };
 
 // Show map, centred on the currently selected country:
 const showMap = function(latitude, longitude, country){
   const container = document.getElementById('main-map');
   const center = {lat: latitude, lng: longitude};
-  const zoom = 2;
+  const zoom = 3;
 
   const map = new MapWrapper(container, center, zoom);
-  map.addMarker(center, country.countryName);
+  // map.addMarker(center, country.countryName);
+  map.addMarker(center, createInfoWindowContents(country));
 };
 
 // Main function:
