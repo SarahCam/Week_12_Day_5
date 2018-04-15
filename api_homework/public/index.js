@@ -189,6 +189,13 @@ const app = function(){
                           + getDemographicsData();
   makeRequest(urlDemographics, createDemographics);
 
+  const container = document.getElementById('main-map');
+  const center = {lat: 56.1703, lng: -4.02793};
+  const zoom = 9;
+
+  const map = new MapWrapper(container, center, zoom);
+  map.addMarker(center);
+
 }
 
 // Event listener, waits for page to load and then calls app() function:
