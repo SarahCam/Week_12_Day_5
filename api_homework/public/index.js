@@ -1,5 +1,6 @@
 let demographicsArray = [];
 let countriesArray = [];
+let latLngArray = [];
 
 const demographicOptions = [
   { key: "birth_rate", value: "Birth Rate"},
@@ -83,9 +84,22 @@ const createDemographicsDropDown = function(array){
     option.value = arrayItem;
     option.innerText = arrayItem.countryName;     // inqstats data
     select.appendChild(option);
+    createCountryLatLng(arrayItem.countryName); // Find the lat/long/region info and add to array
     demographicsArray.push(arrayItem);
-  }
+  };
 };
+
+//Find location data from the restcountries info and add to our reference array - with same index nos:
+const createCountryLatLng = function(countryName){
+  let latLng = [];
+  for(country of countriesArray){
+    if(country.name === countryName){
+      console.log(country.region);
+      latLng.push(country.latlng);
+    };
+  };
+  latLngArray.push(latLng);  // Push onto our 'global' latLngArray - same index # as demographics array
+}
 
 // Generate the demographics results for the selected country:
 const createDemographicsResults = function(demographics){
@@ -94,13 +108,39 @@ const createDemographicsResults = function(demographics){
     let country = demographics[event.target.selectedIndex];
     createCountry(country);
     drawPieCharts(country);
+    drawTrendCharts(demographics, country);
     maxHappiness = findMaxObject(demographics, 'happiness_index');
     minHappiness = findMinObject(demographics, 'happiness_index');
     console.log("Max Happiness: ", maxHappiness.countryName, maxHappiness.happiness_index);
     console.log("Min Happiness: ", minHappiness.countryName, minHappiness.happiness_index);
   });
-}
+};
 
+// Draw demographic trend charts for selected country:
+const drawTrendCharts = function(demographics, country){
+  const dataPointsA = createDataPoints(demographics, 'Happiness', 'GDP','happiness_index', 'gdp_capita');
+  drawGenericTrendChart("Happiness Index v. GDP Per Capita",
+                        'Happiness Index',
+                        'GDP Per Capita',
+                        dataPointsA,
+                        'trendchart-test1');
+
+  const dataPointsB = createDataPoints(demographics, 'Murder Rate', 'GDP','murder_rate', 'gdp_capita');
+  drawGenericTrendChart("Murder Rate v. GDP Per Capita",
+                        'Murder Rate',
+                        'GDP Per Capita',
+                        dataPointsB,
+                        'trendchart-test2');
+
+  const dataPointsC = createDataPoints(demographics, 'Diabetes Prevalence', 'Life Expectancy','diabetes_prevalence', 'life_expectancy');
+  drawGenericTrendChart("Diabetes v. Life Expectancy",
+                        'Diabetes Prevalence',
+                        'Life Expectancy',
+                        dataPointsC,
+                        'trendchart-test3');
+};
+
+// Draw demographic pie charts for selected country:
 const drawPieCharts = function(country){
   drawGenericPieChart('Rural/Urban Population',
                       [ ['Urban/Rural', 'Percentage'],
@@ -123,7 +163,7 @@ const drawPieCharts = function(country){
                         ['Over 64', parseFloat(country.population_over_64)]
                       ],
                       'piechart-test3');
-}
+};
 
 // Create & populate country demographics:
 const createCountry = function(country){
