@@ -53,7 +53,6 @@ const createCountries = function(){
   const jsonString = this.responseText;
   const countries = JSON.parse(jsonString);
   createCountriesArray(countries);
-  drawChart();
 };
 
 const createDemographics = function(){
@@ -104,7 +103,7 @@ const createDemographicsResults = function(demographics){
     createCountry(country);
     drawPieCharts(country);
     drawTrendCharts(demographics, country);
-    showMap(latLngArray[event.target.selectedIndex][0][0], latLngArray[event.target.selectedIndex][0][1]);
+    showMap(latLngArray[event.target.selectedIndex][0][0], latLngArray[event.target.selectedIndex][0][1], country);
 
     maxHappiness = findMaxObject(demographics, 'happiness_index');
     minHappiness = findMinObject(demographics, 'happiness_index');
@@ -177,13 +176,13 @@ const createCountry = function(country){
 };
 
 // Show map, centred on the currently selected country:
-const showMap = function(latitude, longitude){
+const showMap = function(latitude, longitude, country){
   const container = document.getElementById('main-map');
   const center = {lat: latitude, lng: longitude};
   const zoom = 2;
 
   const map = new MapWrapper(container, center, zoom);
-  map.addMarker(center);
+  map.addMarker(center, country.countryName);
 };
 
 // Main function:
