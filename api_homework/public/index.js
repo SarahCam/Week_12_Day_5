@@ -132,9 +132,9 @@ const createCountry = function(country){
   h2.innerText = country.countryName;
 
   for(option of demographicOptions){
-      console.log(option.value, option.key);
       const p = document.getElementById(option.key);
-      p.innerText = option.value + ": " + eval("country." + option.key);
+      const value = country[option.key];        // Don't use const value = eval("country." + option.key)
+      p.innerText = option.value + ": " + value;
   };
 };
 
