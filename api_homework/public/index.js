@@ -60,6 +60,7 @@ const createDemographics = function(){
   const jsonString = this.responseText;
   const demographics = JSON.parse(jsonString);
   createDemographicsDropDown(demographics);
+  createDemographicsResults(demographics);
   drawLine();
 };
 
@@ -86,6 +87,37 @@ const createDemographicsDropDown = function(array){
   }
 };
 
+// Generate the demographics results for the selected country:
+const createDemographicsResults = function(demographics){
+  const select = document.getElementById('demographics-dropdown');
+  select.addEventListener("change", function(event){
+    let country = demographics[event.target.selectedIndex];
+    createCountry(country);
+
+    drawGenericPieChart('Rural/Urban Population',
+                        [ ['Urban/Rural', 'Percentage'],
+                          ['Urban', parseFloat(country.urban_population)],
+                          ['Rural', 100 - country.urban_population]
+                        ],
+                        'piechart-test1');
+
+    drawGenericPieChart('Literacy Level',
+                        [ ['Literacy', 'Percentage'],
+                          ['Literate', parseFloat(country.literacy_rate)],
+                          ['Illiterate', 100 - country.literacy_rate]
+                        ],
+                        'piechart-test2');
+
+    drawGenericPieChart('Population Age',
+                        [ ['Age', 'Percentage'],
+                          ['Under 15', parseFloat(country.population_0_14)],
+                          ['15 - 64 Years', parseFloat(country.population_15_64)],
+                          ['Over 64', parseFloat(country.population_over_64)]
+                        ],
+                        'piechart-test3');
+  });
+}
+
 // Create & populate country demographics:
 const createCountry = function(country){
   const div = document.getElementById('demographics');
@@ -109,26 +141,6 @@ const app = function(){
   const urlDemographics = "http://inqstatsapi.inqubu.com/?api_key=8f4fe2162ce4d44d&cmd=getWorldData&data="
                           + getDemographicsData();
   makeRequest(urlDemographics, createDemographics);
-
-  const select = document.getElementById('demographics-dropdown');
-  select.addEventListener("change", function(event){
-    let country = demographicsArray[event.target.selectedIndex];
-    createCountry(country);
-
-    let rural = 100 - country.urban_population;           // implicitly converts string to float
-    let urban = parseFloat(country.urban_population);     // convert string to floating point number
-    drawGenericPieChart('Rural/Urban Population', [['Urban/Rural', 'Percentage'],['Urban', urban], ['Rural', rural]], 'piechart-test1');
-
-    let illiterate = 100 - country.literacy_rate;         // implicitly converts string to float
-    let literate = parseFloat(country.literacy_rate);     // convert string to floating point number
-    drawGenericPieChart('Literacy Level', [['Literacy', 'Percentage'],['Literate', literate], ['Illiterate', illiterate]], 'piechart-test2');
-
-    let under15 = parseFloat(country.population_0_14);
-    let over15 = parseFloat(country.population_15_64);     // convert string to floating point number
-    let over64 = parseFloat(country.population_over_64);
-    console.log(under15, over15, over64);
-    drawGenericPieChart('Population Age', [['Age', 'Percentage'],['Under 15', under15], ['15 - 64 Years', over15], ['Over 64', over64]], 'piechart-test3');
-  });
 
 }
 

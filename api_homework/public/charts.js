@@ -33,9 +33,6 @@ function drawChart(countries) {
 // Draw a chart...
 function drawGenericPieChart(title, content, element) {
 
-  console.log("GOT TO GENERIC PIE...", title);
-  console.log("content...", content);
-
   const drawPieChart = function(){
     const data = google.visualization.arrayToDataTable(content);
 
