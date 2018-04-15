@@ -1,40 +1,3 @@
-// Key - Source : demographicsArray data.
-
-// birth_rate	Worldbank
-// capital_coordinates Wikipedia
-// capital_name	Wikipedia
-// death_rate	Worldbank
-// diabetes_prevalence Worldbank
-// economic_sectors	Fischer Weltalmanach
-// education_expenditure Worldbank
-// electric_energy_consumption Worldbank
-// forest_area	Returns the total amount of forest area in a country (in km²)	Worldbank
-// forest_area_percent	Returns the percentage of the land area covered by a forest for a country.	Worldbank
-// gdp_total	Returns the total Gross Domestic Product (GDP) for a country (unit: USD).	Worldbank
-// gdp_capita	Returns the Gross Domestic Product per person for a country (unit: USD).	Worldbank
-// gini	Returns the Gini coefficient. Worldbank
-// happiness_index	UNSDSN
-// health_expenditure	Worldbank
-// internetuser	Worldbank
-// internetusers_percent Worldbank
-// jobless_rate	Worldbank
-// life_expectancy UN-Data
-// literacy_rate Worldbank
-// medianwage	Worldbank
-// median_age	UN-Data
-// migration UN-Data
-// migration_rate	UN-Data
-// military_expenditure	Worldbank
-// mobile_cellular_subscriptions Worldbank
-// murder_rate UNODC
-// population	UN-Data
-// population_0_14 Worldbank
-// population_15_64	Worldbank
-// population_over_64	Worldbank
-// size	UN-Data
-// urban_population	Worldbank
-
-
 let demographicsArray = [];
 let countriesArray = [];
 
@@ -71,7 +34,6 @@ const getDemographicsData = function(){
   demographicsData = demographicsData + demographicOptions[lastIndex].key;
   return demographicsData;
 };
-
 
 // Create XHR to 'get' JSON data from API (url)
 // & fire a callback function once the data is loaded:
@@ -150,7 +112,22 @@ const app = function(){
 
   const select = document.getElementById('demographics-dropdown');
   select.addEventListener("change", function(event){
-    createCountry(demographicsArray[event.target.selectedIndex]);
+    let country = demographicsArray[event.target.selectedIndex];
+    createCountry(country);
+
+    let rural = 100 - country.urban_population;           // implicitly converts string to float
+    let urban = parseFloat(country.urban_population);     // convert string to floating point number
+    drawGenericPieChart('Rural/Urban Population', [['Urban/Rural', 'Percentage'],['Urban', urban], ['Rural', rural]], 'piechart-test1');
+
+    let illiterate = 100 - country.literacy_rate;         // implicitly converts string to float
+    let literate = parseFloat(country.literacy_rate);     // convert string to floating point number
+    drawGenericPieChart('Literacy Level', [['Literacy', 'Percentage'],['Literate', literate], ['Illiterate', illiterate]], 'piechart-test2');
+
+    let under15 = parseFloat(country.population_0_14);
+    let over15 = parseFloat(country.population_15_64);     // convert string to floating point number
+    let over64 = parseFloat(country.population_over_64);
+    console.log(under15, over15, over64);
+    drawGenericPieChart('Population Age', [['Age', 'Percentage'],['Under 15', under15], ['15 - 64 Years', over15], ['Over 64', over64]], 'piechart-test3');
   });
 
 }
