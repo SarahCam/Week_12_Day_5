@@ -86,7 +86,6 @@ const createCountryLatLng = function(countryName){
   let latLng = [];
   for(country of countriesArray){
     if(country.name === countryName){
-      console.log(country.region);
       latLng.push(country.latlng);
     };
   };
@@ -98,15 +97,23 @@ const createDemographicsResults = function(demographics){
   const select = document.getElementById('demographics-dropdown');
   select.addEventListener("change", function(event){
     let country = demographics[event.target.selectedIndex];
+    changeTitle(country);
     drawPieCharts(country);
     drawTrendCharts(demographics, country);
     showMap(latLngArray[event.target.selectedIndex][0][0], latLngArray[event.target.selectedIndex][0][1], country);
 
-    maxHappiness = findMaxObject(demographics, 'happiness_index');
-    minHappiness = findMinObject(demographics, 'happiness_index');
-    console.log("Max Happiness: ", maxHappiness.countryName, maxHappiness.happiness_index);
-    console.log("Min Happiness: ", minHappiness.countryName, minHappiness.happiness_index);
+    // maxHappiness = findMaxObject(demographics, 'happiness_index');
+    // minHappiness = findMinObject(demographics, 'happiness_index');
+    // console.log("Max Happiness: ", maxHappiness.countryName, maxHappiness.happiness_index);
+    // console.log("Min Happiness: ", minHappiness.countryName, minHappiness.happiness_index);
   });
+};
+
+// Change title:
+const changeTitle = function(country){
+  const title = document.getElementById('title');
+  title.innerText = country.countryName + " Demographics";
+  console.log("Change title to: ", country);
 };
 
 // Draw demographic trend charts for selected country:

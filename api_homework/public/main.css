@@ -12,10 +12,12 @@ body {
 
 h1 {
   background-color: #aadbff;
+  color: #3c61ad;
 }
 
 #demographics-dropdown {
   background-color: #e4eccf;
+  width: auto;
 }
 
 .wrapper {
@@ -27,13 +29,13 @@ h1 {
 .piechart {
   width: 150px;
   height: 150px;
-  border: 1px solid black;
+  border: 1px solid #3c61ad;
 }
 
 .trendchart {
   width: 400px;
   height: 150px;
-  border: 1px solid black;
+  border: 1px solid #3c61ad;
 }
 
 #main-map {
