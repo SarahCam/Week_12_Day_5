@@ -131,6 +131,13 @@ const drawTrendCharts = function(demographics, country){
                         'Life Expectancy',
                         dataPointsC,
                         'trendchart-test3');
+
+  const dataPointsD = createDataPoints(demographics, 'Happiness', 'GINI','happiness_index', 'gini');
+  drawGenericTrendChart("Happiness v. GINI",
+                        'Happiness Index',
+                        'GINI',
+                        dataPointsC,
+                        'trendchart-test4');
 };
 
 // Draw demographic pie charts for selected country:
