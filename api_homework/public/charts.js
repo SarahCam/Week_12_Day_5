@@ -7,7 +7,7 @@ function drawGenericPieChart(title, content, element) {
     const options = {
       title: title,
       legend: 'none',
-      pieSliceText: 'label',
+      pieSliceText: 'label'
     };
 
     const chart = new google.visualization.PieChart(document.getElementById(element));
@@ -31,7 +31,11 @@ function drawGenericTrendChart(title, hAxis, vAxis, content, element){
       vAxis: {title: vAxis},
       legend: 'none',
       trendlines: { 0: {} },    // Draw a trendline for data series 0.
-      pointSize: 2
+      pointSize: 2,
+      animation: {
+                duration: 1500,
+                startup: true
+            }
     };
 
     const chart = new google.visualization.ScatterChart(document.getElementById(element));
