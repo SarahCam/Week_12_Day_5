@@ -6,6 +6,7 @@ const demographicOptions = [
   { key: "death_rate", value: "Death Rate"},
   { key: "diabetes_prevalence", value: "Diabetes Prevalence"},
   { key: "electric_energy_consumption", value: "Electric Energy Consumption"},
+  { key: "forest_area_percent", value: "Forest Area"},
   { key: "gdp_capita", value: "GDP Per Capita"},
   { key: "gini", value: "GINI"},
   { key: "happiness_index", value: "Happiness Index"},
@@ -60,7 +61,6 @@ const createDemographics = function(){
   const demographics = JSON.parse(jsonString);
   createDemographicsDropDown(demographics);
   createDemographicsResults(demographics);
-  drawLine();
 };
 
 // Create countries array from  restcountries data:
@@ -156,6 +156,13 @@ const drawPieCharts = function(country){
                         ['Over 64', parseFloat(country.population_over_64)]
                       ],
                       'piechart-test3');
+
+  drawGenericPieChart('Forest Area',
+                      [ ['Land', 'Percentage'],
+                        ['Forest', parseFloat(country.forest_area_percent)],
+                        ['Open', 100 - country.forest_area_percent]
+                      ],
+                      'piechart-test4');
 };
 
 // Create & populate country demographics in InfoWindow:
@@ -166,7 +173,7 @@ const createInfoWindowContents = function(country){
       const value = country[option.key];
       p.innerText = option.value + ": " + value;
       p.style.fontSize = "10px";
-      p.style.lineHeight ="0.7";
+      p.style.lineHeight ="0.6";
       content.appendChild(p);
   };
   return content;
@@ -177,9 +184,7 @@ const showMap = function(latitude, longitude, country){
   const container = document.getElementById('main-map');
   const center = {lat: latitude, lng: longitude};
   const zoom = 3;
-
   const map = new MapWrapper(container, center, zoom);
-  // map.addMarker(center, country.countryName);
   map.addMarker(center, createInfoWindowContents(country));
 };
 

@@ -3,29 +3,39 @@
   <head>
     <title>Homework API App</title>
     <link rel="stylesheet" type="text/css" href="main.css">
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src='common.js'></script>
-    <script src='canvas.js'></script>
-    <script src='charts.js'></script>
+    <script type="text/javascript" src='common.js'></script>
+    <script type="text/javascript" src='canvas.js'></script>
+    <script type="text/javascript" src='charts.js'></script>
     <script type="text/javascript" src="map.js"></script>
-    <script src='index.js'></script>
+    <script type="text/javascript" src='index.js'></script>
   </head>
   <body>
-    <h1>World Demographics</h1>
 
-    <select id="demographics-dropdown"></select>
+    <header>
+      <h1>World Demographics</h1>
+      <select id="demographics-dropdown"></select>
+    </header>
 
-    <div id="piechart-test1" style="width: 300px; height: 150px;"></div>
-    <div id="piechart-test2" style="width: 300px; height: 150px;"></div>
-    <div id="piechart-test3" style="width: 300px; height: 150px;"></div>
+    <div class="wrapper">
+      <section class="section">
+        <div id="main-map"></div>
+        <!-- <canvas id="main-canvas" width="540" height="380"></canvas> -->
+      </section>
+    </aside class="aside">
+        <div id="piechart-test1" class="piechart"></div>
+        <div id="piechart-test2" class="piechart"></div>
+        <div id="piechart-test3" class="piechart"></div>
+        <div id="piechart-test4" class="piechart"></div>
+      </aside>
+    </div>
 
-    <div id="trendchart-test1" style="width: 400px; height: 150px;"></div>
-    <div id="trendchart-test2" style="width: 400px; height: 150px;"></div>
-    <div id="trendchart-test3" style="width: 400px; height: 150px;"></div>
+    <footer>
+      <div id="trendchart-test1" class="trendchart"></div>
+      <div id="trendchart-test2" class="trendchart"></div>
+      <div id="trendchart-test3" class="trendchart"></div>
+    </footer>
 
-    <div id="main-map"></div>
-
-    <canvas id="main-canvas" width="540" height="380"></canvas>
   </body>
 </html>

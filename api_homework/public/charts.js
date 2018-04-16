@@ -30,7 +30,8 @@ function drawGenericTrendChart(title, hAxis, vAxis, content, element){
       hAxis: {title: hAxis},
       vAxis: {title: vAxis},
       legend: 'none',
-      trendlines: { 0: {} }    // Draw a trendline for data series 0.
+      trendlines: { 0: {} },    // Draw a trendline for data series 0.
+      pointSize: 2
     };
 
     const chart = new google.visualization.ScatterChart(document.getElementById(element));
@@ -39,6 +40,8 @@ function drawGenericTrendChart(title, hAxis, vAxis, content, element){
 
   google.charts.setOnLoadCallback(drawTrendChart);
 };
+
+
 
 // Create data points to be used in chart:
 const createDataPoints = function(objectArray, hAxisTitle, vAxisTitle, hAxisProperty, vAxisProperty){

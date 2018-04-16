@@ -1,17 +1,57 @@
 body {
   margin: 0;
-  /* background-image: url("TBD.jpg"); */
-  /* background-repeat:no-repeat; */
-  /* background-size: 900px; */
+  font-family: sans-serif;
+  background-color: #aadbff;
 }
 
-canvas {
+/* canvas {
   border: 5px solid black;
   margin-left: 180px;
   margin-top: 170px;
+} */
+
+h1 {
+  background-color: #aadbff;
+}
+
+#demographics-dropdown {
+  background-color: #e4eccf;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.piechart {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black;
+}
+
+.trendchart {
+  width: 400px;
+  height: 150px;
+  border: 1px solid black;
 }
 
 #main-map {
-  height: 500px;
-  width: 500px;
+  height: 480px;
+  width: 700px;
+}
+
+.section {
+  flex-direction: column;
+  flex-grow: 1;
+}
+.aside {
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
